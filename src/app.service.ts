@@ -45,4 +45,20 @@ export class AppService {
 
     await this.employeeRepo.save(manager);
   }
+
+  async getEmployeeById(id: number): Promise<Employee> {
+    return this.employeeRepo.findOne(id, {
+      relations: [
+        'manager',
+        'directReports',
+        'tasks',
+        'contactInfo',
+        'meetings',
+      ],
+    });
+  }
+  async deleteEmployee(id: number): Promise<string> {
+    return (await this.employeeRepo.delete(id)).raw;
+  }
+
 }
